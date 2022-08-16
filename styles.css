@@ -1,0 +1,98 @@
+body {
+    background-color: black !important;
+}
+
+.life-box-main {
+    width: calc(100% - 15px);
+    height: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    position: relative;
+    background: lightblue;
+    max-width: 725px;
+    border: 2px solid black;
+    border-radius: 5px;
+}
+
+.toolbar {
+    display: flex;
+    justify-content: space-between;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: .8em; 
+    max-width: 725px;
+}
+
+.life-text-normal {
+    font-size: 180px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    background: lightblue;
+}
+
+.life-text-upside-down {
+    font-size: 180px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%) rotate(-180deg);
+    background: lightblue;
+}
+
+.overlay {
+    opacity: .2;
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+
+.life-change-box {
+    width: 100%;
+}
+
+/* .life-change-box:hover {
+    background: lightsteelblue;
+} */
+
+.life-change-box.damage:active {
+    background:red;
+}
+
+.life-change-box.heal:active {
+    background:green;
+}
+
+.hero-box {
+    height:50px; 
+    border: 1px solid black;
+    border-radius: 5px; 
+    display: flex;
+    margin: 5px;
+}
+
+.hero-box:hover {
+    opacity: .75;
+    background-color: rgb(195, 228, 195);
+}
+
+.hero-box:active {
+    background-color: lightgreen;
+}
+
+.hero-text {
+    margin-left:auto;
+    margin-right:auto;
+    margin-top:auto;
+    margin-bottom:auto;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.green {
+    background-color: lightgreen;
+}

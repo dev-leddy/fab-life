@@ -37,6 +37,7 @@ var LifeTotalApp = new Vue({
             }
         },
         setPlayerHero: function(player, heroName){
+            this[player + "Hero"] = heroName;
             if(this.format == "CC")
             {
                 this[player] = this.heroes[heroName].cc;
