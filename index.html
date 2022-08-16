@@ -1,15 +1,14 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
 <link href="./styles.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
-
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
-<script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
 <script src="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.js"></script>
 
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<!--tst-->
+<!--test-->
 <div id="app">
     <div id="main" class="d-flex flex-column" style="height: 100vh;">
         <div class="life-box-main">
@@ -17,61 +16,110 @@
                 {{ p1 }}
             </h1>
             <div v-if="webcamMode == false" class="overlay">
-                <div class="life-change-box heal" @click="p1++"></div>
-                <div class="life-change-box damage" @click="p1--"></div>
+                <div class="life-change-box heal" @click="lifeChange('p1', +1, damageType)"></div>
+                <div class="life-change-box damage" @click="lifeChange('p1', -1, damageType)"></div>
             </div>
             <div v-else class="overlay">
-                <div class="life-change-box damage" @click="p1--"></div>
-                <div class="life-change-box heal" @click="p1++"></div>
+                <div class="life-change-box damage" @click="lifeChange('p1', -1, damageType)"></div>
+                <div class="life-change-box heal" @click="lifeChange('p1', +1, damageType)"></div>
             </div>
         </div>
-        <div class="toolbar">
-            <div>
-                <b-button class="mx-5" size="sm" v-b-modal.user-settings><i data-feather="settings"></i></b-button>
-                <b-button class="mx-5" size="sm" v-b-modal.resetConfirm><i data-feather="repeat"></i></b-button>       
-                <!-- @click="reset()"        -->
-            </div>
+        <div class="toolbar">                      
+            <b-button size="sm" variant="outline-secondary" v-b-modal.user-settings><span class="material-icons">settings</span></b-button>               
+            <b-button size="sm" variant="outline-secondary" v-b-modal.dice-modal @click="getDiceValue()"><span class="material-icons">casino</span></b-button> 
+            <b-button size="sm" variant="outline-secondary" class="mx-auto" v-b-modal.confirm-modal><span class="material-icons">restart_alt</span></b-button>  
+            <b-button-group class="ml-auto">
+                <b-button size="sm" variant="outline-warning" :pressed="damageType == 'Physical'" @click="damageType = 'Physical'">P</b-button>   
+                <b-button size="sm" variant="outline-purple" :pressed="damageType == 'Arcane'" @click="damageType = 'Arcane'">A</b-button>                
+                <b-button size="sm" variant="outline-danger" :pressed="damageType == 'Other'" @click="damageType = 'Other'">O</b-button> 
+            </b-button-group>                      
+            <b-button size="sm" variant="outline-secondary" class="ml-5" v-b-modal.log-modal><span class="material-icons">history_edu</span></b-button>   
         </div>
         <div class="life-box-main">
             <h1 class="my-auto mx-auto life-text-normal">
                 {{ p2 }}
             </h1>
             <div class="overlay">
-                <div class="life-change-box damage" @click="p2--"></div>
-                <div class="life-change-box heal" @click="p2++"></div>
+                <div class="life-change-box damage" @click="lifeChange('p2', -1, damageType)"></div>
+                <div class="life-change-box heal" @click="lifeChange('p2', +1, damageType)"></div>
             </div>
         </div>
     </div>
 
-    <b-modal id="user-settings" size="large" centered title="Settings" >
+    <b-modal id="user-settings" size="large" centered scrollable hide-footer title="Settings">
         <div class="d-flex flex-column">
-            <div class="mx-auto">
-                <b-button @click="setCC()"><i data-feather="shield"></i> CC</b-button>
-                <b-button @click="setBlitz()"><i data-feather="zap"></i> Blitz</b-button>
-                <b-button class="ml-5" @click="webcamMode = true"><i data-feather="camera"></i> Webcam</b-button>
-                <b-button @click="webcamMode = false"><i data-feather="camera"></i> IRL</b-button>
-            </div>
-            <div class="d-flex">
-                <div class="d-flex flex-column mx-auto">
-                    <h5 class="mx-auto">Player 1</h5>
-                    <div v-for="(heroData, heroName) in heroes" v-if="format == 'CC' && heroData.cc != null || format == 'Blitz'" class="hero-box" :class="{'green': heroName == p1Hero}" @click="setPlayerHero('p1', heroName)">
-                        <h5 class="hero-text">{{heroName}}</h5>
-                        <!-- {{heroData.cc}}, {{heroData.blitz}} -->
+            <b-card>
+                <div class="d-flex">
+                    <b-button-group class="mx-auto">
+                        <b-button variant="outline-dark" @click="setCC()" :pressed="format == 'CC'">CC</b-button>
+                        <b-button variant="outline-dark" @click="setBlitz()" :pressed="format == 'Blitz'">Blitz</b-button>
+                    </b-button-group>
+                    <b-button-group class="mx-auto">
+                        <b-button variant="outline-dark" class="ml-auto" @click="webcamMode = true" :pressed="webcamMode == true">Webcam</b-button>
+                        <b-button variant="outline-dark" @click="webcamMode = false" :pressed="webcamMode == false">IRL</b-button>
+                    </b-button-group>                   
+                </div>
+            </b-card>
+            <!-- <b-card>
+                <b-form-input type="color"></b-form-input>
+            </b-card> -->
+            <b-card class="mt-2">
+                <div class="d-flex">
+                    <div class="d-flex flex-column mx-auto">
+                        <h5 class="mx-auto mb-1">Top Player</h5>
+                        <div v-for="(heroData, heroName) in heroes" v-if="format == 'CC' && heroData.cc != null || format == 'Blitz'" class="hero-box" :class="{'green': heroName == p1Hero}" @click="setPlayerHero('p1', heroName)">
+                            <h5 class="hero-text">{{heroName}}</h5>
+                            <!-- {{heroData.cc}}, {{heroData.blitz}} -->
+                        </div>
+                    </div>
+                    <div class="d-flex flex-column mx-auto">
+                        <h5 class="mx-auto mb-1">Bottom Player</h5>
+                        <div v-for="(heroData, heroName) in heroes" v-if="format == 'CC' && heroData.cc != null || format == 'Blitz'" class="hero-box" :class="{'green': heroName == p2Hero}" @click="setPlayerHero('p2', heroName)">
+                            <h5 class="hero-text">{{heroName}}</h5>
+                            <!-- {{heroData.cc}}, {{heroData.blitz}} -->
+                        </div>
                     </div>
                 </div>
-                <div class="d-flex flex-column mx-auto">
-                    <h5 class="mx-auto">Player 2</h5>
-                    <div v-for="(heroData, heroName) in heroes" v-if="format == 'CC' && heroData.cc != null || format == 'Blitz'" class="hero-box" :class="{'green': heroName == p2Hero}" @click="setPlayerHero('p2', heroName)">
-                        <h5 class="hero-text">{{heroName}}</h5>
-                        <!-- {{heroData.cc}}, {{heroData.blitz}} -->
-                    </div>
-                </div>
-            </div>
+            </b-card>
         </div>
     </b-modal>
 
-    <b-modal id="resetConfirm" title="BootstrapVue">
-        <p class="my-4">Hello from modal!</p>
+    <b-modal id="confirm-modal" size="sm" centered title="Confirm" @ok="reset">
+        <div class="d-flex">
+            <h5 class="my-auto mx-auto pt-3">Reset life totals?</h5>
+        </div>
+    </b-modal>
+
+    <b-modal id="dice-modal" size="sm" centered hide-footer title="Dice (2d6)">
+        <div class="d-flex flex-column">
+            <div class="my-auto mx-auto pt-3 d-flex justify-content-between">
+                <b-card class="mx-1" style="width:100">
+                    <div class="d-flex">
+                        <h1 class="mx-auto">{{diceValue1}}</h1>
+                    </div>
+                </b-card>
+                <b-card class="mx-1" style="width:100">
+                    <div class="d-flex">
+                        <h1 class="mx-auto">{{diceValue2}}</h1>
+                    </div>
+                </b-card>
+            </div>
+            <div class="mx-auto mt-1">Total: {{diceValue1 + diceValue2}}</div>
+            <b-button class="mx-auto mt-3" variant="outline-dark" @click="getDiceValue()">Roll Again</b-button>
+        </div>
+    </b-modal>
+
+    <b-modal id="log-modal" size="large" centered hide-footer title="Life Total History">
+        <div class="d-flex">
+            <div class="d-flex flex-column mx-auto">
+                <div class="mx-auto mb-1" style="font-size:1.1em">Hero: {{p1Hero}} (top)</div>
+                <b-table ref="p1LogTable" striped hover :items="p1Log"></b-table>
+            </div>
+            <div class="d-flex flex-column mx-auto">
+                <div class="mx-auto mb-1" style="font-size:1.1em">{{p2Hero}} (bottom)</div>
+                <b-table ref="p2LogTable" striped hover :items="p2Log"></b-table>
+            </div>
+        </div>
     </b-modal>
 </div>
 

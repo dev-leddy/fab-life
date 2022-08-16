@@ -19,10 +19,11 @@ body {
 
 .toolbar {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     margin-left: auto;
     margin-right: auto;
     font-size: .8em; 
+    width: calc(100% - 15px);
     max-width: 725px;
 }
 
@@ -73,14 +74,10 @@ body {
     border-radius: 5px; 
     display: flex;
     margin: 5px;
+    cursor: pointer;
 }
 
 .hero-box:hover {
-    opacity: .75;
-    background-color: rgb(195, 228, 195);
-}
-
-.hero-box:active {
     background-color: lightgreen;
 }
 
@@ -91,8 +88,20 @@ body {
     margin-bottom:auto;
     padding-left: 5px;
     padding-right: 5px;
+    cursor: pointer;
 }
 
 .green {
     background-color: lightgreen;
+}
+
+.btn-outline-purple {
+    color:  #9d53c3 !important;
+    border-color: #9d53c3 !important;
+}
+
+.btn-outline-purple:hover, .btn-outline-purple.active {
+    color: #fff !important;
+    background-color: #9d53c3 !important;
+    border-color: #9d53c3 !important;
 }
