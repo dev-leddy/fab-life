@@ -47,6 +47,7 @@ body {
 .life-text-normal {
     font-size: 180px;
     color: white;
+
     position: absolute;
     top: 50%;
     left: 50%;
@@ -56,6 +57,7 @@ body {
 .life-text-upside-down {
     font-size: 180px;
     color: white;
+    
     position: absolute;
     top: 50%;
     left: 50%;
