@@ -10,6 +10,7 @@ var LifeTotalApp = new Vue({
     data: {
         format: "CC",
         damageType: "Physical",
+        damageTypeEnabled: true,
         p1: 40,
         p2: 40,
         p1Hero: "Default",
@@ -21,10 +22,10 @@ var LifeTotalApp = new Vue({
         diceValue2: -1,
         tempLife: 0,
         heroes: {
-            Valda: {cc: null, blitz: 21},
-            Iyslander: {cc: 36, blitz: 18},
-            Kano: {cc: 30, blitz: 15},
-            Benji: {cc: null, blitz: 17},
+            Valda: {cc: null, blitz: 21, image: "https://storage.googleapis.com/fabmaster/media/images/hero_uOyFL37z033ISMmboAoC.height-650.jpg"},
+            Iyslander: {cc: 36, blitz: 18, image: "https://storage.googleapis.com/fabmaster/media/images/Iyslander_Hero_IVHJpfvav250.height-650.jpg"},
+            Kano: {cc: 30, blitz: 15, image: "https://storage.googleapis.com/fabmaster/media/images/kano_old_nocopy.height-650.jpg"},
+            Benji: {cc: null, blitz: 17, image: "https://storage.googleapis.com/fabmaster/media/images/CRU_NINJA_HERO_Benji_the_Piercing_Wind_Sam_Ya.height-650.jpg"},
             Default: {cc: 40, blitz: 20}
         }
     },
@@ -55,10 +56,16 @@ var LifeTotalApp = new Vue({
                 Type = "Life Gain";
             }
 
+            let data = {'Life': this[Player], '#': Amount};
+
+            if(this.damageTypeEnabled){
+                data["Type"] = Type;
+            }
+
             this.$set(
                 this[Player + 'Log'], 
                 this[Player + 'Log'].length, 
-                {'Life': this[Player], '#': Amount, 'Type': Type}
+                data
             );
             this.tempLife = 0;
         },
@@ -82,6 +89,8 @@ var LifeTotalApp = new Vue({
             else{
                 this[player] = this.heroes[heroName].blitz;
             }
+            this.p1Log.splice(0);
+            this.p2Log.splice(0);
         },
         getDiceValue(){
             const delay = async (ms = 1000) =>

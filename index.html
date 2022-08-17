@@ -11,7 +11,8 @@
 <!--test-->
 <div id="app">
     <div id="main" class="d-flex flex-column" style="height: 100vh;">
-        <div class="life-box-main">
+        <div class="life-box-main" :class="{'flipped': webcamMode == false}">
+            <img v-if="p1Hero != 'Default'" :src="heroes[p1Hero].image"/>
             <h1 :class="{ 'life-text-upside-down': webcamMode == false, 'life-text-normal': webcamMode == true }">
                 {{ p1 }}
             </h1>
@@ -28,7 +29,7 @@
             <b-button size="sm" variant="outline-secondary" v-b-modal.user-settings><span class="material-icons">settings</span></b-button>               
             <b-button size="sm" variant="outline-secondary" v-b-modal.dice-modal @click="getDiceValue()"><span class="material-icons">casino</span></b-button> 
             <b-button size="sm" variant="outline-secondary" class="mx-auto" v-b-modal.confirm-modal><span class="material-icons">restart_alt</span></b-button>  
-            <b-button-group class="ml-auto">
+            <b-button-group v-if="damageTypeEnabled" class="ml-auto">
                 <b-button size="sm" variant="outline-warning" :pressed="damageType == 'Physical'" @click="damageType = 'Physical'">P</b-button>   
                 <b-button size="sm" variant="outline-purple" :pressed="damageType == 'Arcane'" @click="damageType = 'Arcane'">A</b-button>                
                 <b-button size="sm" variant="outline-danger" :pressed="damageType == 'Other'" @click="damageType = 'Other'">O</b-button> 
@@ -36,6 +37,7 @@
             <b-button size="sm" variant="outline-secondary" class="ml-5" v-b-modal.log-modal><span class="material-icons">history_edu</span></b-button>   
         </div>
         <div class="life-box-main">
+            <img v-if="p2Hero != 'Default'" :src="heroes[p2Hero].image"/>
             <h1 class="my-auto mx-auto life-text-normal">
                 {{ p2 }}
             </h1>
@@ -49,15 +51,29 @@
     <b-modal id="user-settings" size="large" centered scrollable hide-footer title="Settings">
         <div class="d-flex flex-column">
             <b-card>
-                <div class="d-flex">
-                    <b-button-group class="mx-auto">
-                        <b-button variant="outline-dark" @click="setCC()" :pressed="format == 'CC'">CC</b-button>
-                        <b-button variant="outline-dark" @click="setBlitz()" :pressed="format == 'Blitz'">Blitz</b-button>
-                    </b-button-group>
-                    <b-button-group class="mx-auto">
-                        <b-button variant="outline-dark" class="ml-auto" @click="webcamMode = true" :pressed="webcamMode == true">Webcam</b-button>
-                        <b-button variant="outline-dark" @click="webcamMode = false" :pressed="webcamMode == false">IRL</b-button>
-                    </b-button-group>                   
+                <div class="d-flex flex-wrap">
+                    <div class="mx-auto my-1">
+                        <div>Format:</div>
+                        <b-button-group>
+                            <b-button variant="outline-dark" @click="setCC()" :pressed="format == 'CC'">CC</b-button>
+                            <b-button variant="outline-dark" @click="setBlitz()" :pressed="format == 'Blitz'">Blitz</b-button>
+                        </b-button-group>
+                    </div>
+                    <div class="mx-auto my-1">
+                        <div>Orientation:</div>
+                        <b-button-group>
+                            <b-button variant="outline-dark" class="ml-auto" @click="webcamMode = true" :pressed="webcamMode == true">Webcam</b-button>
+                            <b-button variant="outline-dark" @click="webcamMode = false" :pressed="webcamMode == false">IRL</b-button>
+                        </b-button-group>  
+                    </div>
+                    <div class="mx-auto my-1">
+                        <div>Damage Types:</div> 
+                        <b-button-group>                                        
+                            <b-button variant="outline-dark" @click="damageTypeEnabled = true" :pressed="damageTypeEnabled == true">Enabled</b-button>
+                            <b-button variant="outline-dark" @click="damageTypeEnabled = false" :pressed="damageTypeEnabled == false">Disabled</b-button>
+                        </b-button-group>      
+                    </div>                      
+            
                 </div>
             </b-card>
             <!-- <b-card>
@@ -112,7 +128,7 @@
     <b-modal id="log-modal" size="large" centered hide-footer title="Life Total History">
         <div class="d-flex">
             <div class="d-flex flex-column mx-auto">
-                <div class="mx-auto mb-1" style="font-size:1.1em">Hero: {{p1Hero}} (top)</div>
+                <div class="mx-auto mb-1" style="font-size:1.1em">{{p1Hero}} (top)</div>
                 <b-table ref="p1LogTable" striped hover :items="p1Log"></b-table>
             </div>
             <div class="d-flex flex-column mx-auto">
