@@ -84,17 +84,19 @@
                             <b-button variant="outline-light" @click="setBlitz()" :pressed="format == 'Blitz'">Blitz/Limited/Commoner</b-button>
                         </b-button-group>
                     </div>
-                    <div class="mx-auto my-1 d-flex flex-column">
-                        <b-form-checkbox v-model="webcamMode" name="check-button" switch>
+                    <div class="mx-auto my-1 d-flex justify-content-around">
+                        <b-form-checkbox  class="my-auto mx-auto" v-model="webcamMode" name="check-button" switch>
                             &nbsp;Webcam Mode
                         </b-form-checkbox>
+						
                         <!-- <b-form-checkbox v-model="damageTypeEnabled" name="check-button" switch>
                             &nbsp;Damage Type Enabled
                         </b-form-checkbox> -->
                         <!-- <b-form-checkbox v-model="typeDefaultDisabled" name="check-button" switch>
                             &nbsp;Disable Physical Default (if type enabled)
                         </b-form-checkbox> -->
-                    </div>                             
+                    </div> 
+					<b-button class="my-auto mx-auto" variant="outline-light" @click="refreshPageForUpdates()">Update</b-button>                            
                 </div>
             </b-card>
             <!-- <b-card>

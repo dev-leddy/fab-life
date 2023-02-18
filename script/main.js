@@ -162,7 +162,10 @@ var LifeTotalApp = new Vue({
             else{
                 return "./images/hero_young/" + hero.toLowerCase() + "_young.jpg";
             }
-        }
+        },
+		refreshPageForUpdates(){
+			location.reload(true);
+		}
     },
     watch: {
         // damageTypeEnabled: false,
