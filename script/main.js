@@ -33,7 +33,7 @@ var LifeTotalApp = new Vue({
             Briar: {cc: 40, blitz: 20},
             Chane: {cc: 40, blitz: 20},
             Dash: {cc: 40, blitz: 20},
-            DataDoll: {cc: 40, blitz: 20},
+            DataDoll: {cc: null, blitz: 20},
             Dorinthea: {cc: 40, blitz: 20},
 			Emperor: {cc: null, blitz: 15},
             Dromai: {cc: 40, blitz: 20},
