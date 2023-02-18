@@ -23,6 +23,7 @@ var LifeTotalApp = new Vue({
         webcamMode: false,
         diceValue1: -1,
         diceValue2: -1,
+		diceRolled: " ",
         heroes: {
             Default: {cc: 40, blitz: 20},
 			Arakni: {cc: 40, blitz: 20}, 
@@ -51,8 +52,8 @@ var LifeTotalApp = new Vue({
             Oldhim: {cc: 40, blitz: 20},
             Prism: {cc: 40, blitz: 20},
             Rhinar: {cc: 40, blitz: 20},
-            Shiyana: {cc: 40, blitz: 20},
-            Starvo: {cc: 40, blitz: 20},
+            Shiyana: {cc: null, blitz: 20},
+            Starvo: {cc: null, blitz: 20},
             Valda: {cc: null, blitz: 21},
             Viserai: {cc: 40, blitz: 20},
 			Yoji: {cc: null, blitz: 20}           
@@ -142,6 +143,7 @@ var LifeTotalApp = new Vue({
             this.p2Log.splice(0);
         },
         getDiceValue(maxDiceValue){
+			LifeTotalApp.diceRolled = "1d" + maxDiceValue;
             const delay = async (ms = 1000) =>
             new Promise(resolve => setTimeout(resolve, ms));
 
@@ -191,7 +193,7 @@ var LifeTotalApp = new Vue({
 });
 
 function rollDice(min, max) {
-    return min + Math.floor(Math.random() * (max - min + 1))
+    return min + Math.floor(Math.random() * (max - min + 1));
 }
 
 var lifeDebounce = debounce(function(Player, Amount, Type){

@@ -38,8 +38,8 @@
         <div class="toolbar">     
             <div class="d-flex mr-auto">
                 <b-button size="sm" variant="secondary" class="mx-1" v-b-modal.user-settings><span class="material-icons">settings</span></b-button>               
-                <b-button size="sm" variant="secondary" class="mx-1" v-b-modal.dice-modal @click="getDiceValue(6)"><span class="material-icons">casino</span></b-button> 
-            </div>                 
+                <b-button size="sm" variant="secondary" class="mx-1" v-b-modal.dice-modal ><span class="material-icons">casino</span></b-button> 
+            </div>
             <div v-if="damageTypeEnabled" class="d-flex mx-auto">
                 <b-button-group  class="mx-auto">
                     <b-button size="sm" variant="outline-warning" style="height: 42px; width: 42px" :pressed="damageType == 'Physical'" @click="damageType = 'Physical'"><b-img src="./images/icons/physical.webp" fluid></b-img></b-button>   
@@ -77,14 +77,13 @@
         <div class="d-flex flex-column">
             <b-card>
                 <div class="d-flex flex-wrap">
-                    <div class="mx-auto my-1">
-                        <div>Format:</div>
+                    <div class="mx-auto mt-1 my-auto">
                         <b-button-group>
-                            <b-button variant="outline-light" @click="setCC()" :pressed="format == 'CC'">Classic Constructed</b-button>
-                            <b-button variant="outline-light" @click="setBlitz()" :pressed="format == 'Blitz'">Blitz/Limited/Commoner</b-button>
+                            <b-button variant="outline-light" @click="setCC()" :pressed="format == 'CC'">Adult</b-button>
+                            <b-button variant="outline-light" @click="setBlitz()" :pressed="format == 'Blitz'">Young</b-button>
                         </b-button-group>
                     </div>
-                    <div class="mx-auto my-1 d-flex justify-content-around">
+                    <div class="mx-auto my-auto d-flex justify-content-around">
                         <b-form-checkbox  class="my-auto mx-auto" v-model="webcamMode" name="check-button" switch>
                             &nbsp;Webcam Mode
                         </b-form-checkbox>
@@ -95,23 +94,22 @@
                         <!-- <b-form-checkbox v-model="typeDefaultDisabled" name="check-button" switch>
                             &nbsp;Disable Physical Default (if type enabled)
                         </b-form-checkbox> -->
-                    </div> 
-					<b-button class="my-auto mx-auto" variant="outline-light" @click="refreshPageForUpdates()">Update</b-button>                            
-                </div>
+                    </div> 					                         
+                </div>				 
             </b-card>
             <!-- <b-card>
                 <b-form-input type="color"></b-form-input>
             </b-card> -->
             <b-card class="mt-2">
                 <div class="d-flex">
-                    <div class="d-flex flex-column mx-auto w-100">
-                        <h5 class="mx-auto mb-1" style="border-bottom: 2px solid black">Top Player</h5>
+                    <div class="d-flex flex-column mx-1 w-100">
+                        <h5 class="mx-auto mb-1 w-100" style="border-bottom: 2px solid #222; text-align: center;">Top Player</h5>
                         <div v-for="(heroData, heroName) in heroes" v-if="format == 'CC' && heroData.cc != null || format == 'Blitz'" class="hero-box" :class="{'green': heroName == p1Hero}" @click="setPlayerHero('p1', heroName)">
                             <h5 class="hero-text">{{heroName}}</h5>
                         </div>
                     </div>
-                    <div class="d-flex flex-column mx-auto w-100">
-                        <h5 class="mx-auto mb-1" style="border-bottom: 2px solid black">Bottom Player</h5>
+                    <div class="d-flex flex-column mx-1 w-100">
+                        <h5 class="mx-auto mb-1 w-100" style="border-bottom: 2px solid #222 ; text-align: center">Bottom Player</h5>
                         <div v-for="(heroData, heroName) in heroes" v-if="format == 'CC' && heroData.cc != null || format == 'Blitz'" class="hero-box" :class="{'green': heroName == p2Hero}" @click="setPlayerHero('p2', heroName)">
                             <h5 class="hero-text">{{heroName}}</h5>
                         </div>
@@ -119,22 +117,23 @@
                 </div>
             </b-card>
         </div>
+		<div class="d-flex w-100 pt-2">
+			<b-button class="my-auto ml-auto btn-secondary"  @click="refreshPageForUpdates()">Reload App</b-button>  
+		</div>
     </b-modal>
 
-    <b-modal id="confirm-modal" size="sm" centered hide-header-close @ok="reset" style="transform: rotate(90deg) !important;">
+    <b-modal id="confirm-modal" size="sm" centered hide-header @ok="reset" style="transform: rotate(90deg) !important;">
         <div class="d-flex">
             <h4 class="my-auto mx-auto pt-3">Reset life totals?</h4>
         </div>
     </b-modal>
 
-    <b-modal id="dice-modal" size="sm" centered hide-footer title="Dice">
-        <div class="d-flex flex-column">
-            <div class="my-auto mx-auto pt-3 d-flex justify-content-between">
-                <b-card class="mx-1" style="width:100">
-                    <div class="d-flex">
-                        <h1 class="mx-auto">{{diceValue1}}</h1>
-                    </div>
-                </b-card>
+    <b-modal id="dice-modal" size="sm" centered hide-footer hide-header>
+        <div class="d-flex flex-column">			
+            <div class="my-auto mx-auto pt-3 d-flex justify-content-between">			
+                <div class="mx-1 d-flex" style="border: 2px solid gray; background-color: #222; height:100px; width:100px; border-radius: 20px;">
+                    <h1 class="mx-auto my-auto" v-if="diceValue1 > -1">{{diceValue1}}</h1>
+                </div>
                 <!-- <b-card class="mx-1" style="width:100">
                     <div class="d-flex">
                         <h1 class="mx-auto">{{diceValue2}}</h1>
@@ -142,11 +141,15 @@
                 </b-card> -->
             </div>
             <!-- <div class="mx-auto mt-1">Total: {{diceValue1 + diceValue2}}</div> -->
-            <b-button class="mx-auto mt-3" variant="secondary" @click="getDiceValue(6)">Roll Again</b-button>
+			<div class="d-flex">
+				<b-button class="mx-auto mt-3" variant="secondary" @click="getDiceValue(4)">1d4</b-button>
+				<div class="mx-auto">{{diceRolled}}</div>
+				<b-button class="mx-auto mt-3" variant="secondary" @click="getDiceValue(6)">1d6</b-button>
+			</div>
         </div>
     </b-modal>
 
-    <b-modal id="log-modal" size="large" centered hide-footer title="Life Total History">
+    <b-modal id="log-modal" size="large" centered hide-footer scrollable title="Life Total History" style="max-height: 100px">
         <div class="d-flex" style="min-height: 50vh">
             <div class="d-flex flex-column mx-1 flex-grow-1">
                 <div class="mx-auto mb-1" style="font-size:1.1em">{{p1Hero}} (top)</div>
