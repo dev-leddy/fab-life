@@ -8,20 +8,23 @@ body {
 	-ms-user-select: none; /* Internet Explorer/Edge */
 	user-select: none; /* Non-prefixed version, currently
 						supported by Chrome, Edge, Opera and Firefox */
+	/* atttempt at overscroll prevention */
+	position: fixed;
+	overflow: hidden;
 }
 
 .life-box-main {
-    width: calc(100% - 15px);
+    width: calc(100vw - 10px);
     height: 100%;
-    margin-left: auto;
-    margin-right: auto;
+    margin-left: 5px;
+    margin-right: 5px;
     margin-top: 10px;
     margin-bottom: 10px;
     display: flex;
     position: relative;
     max-width: 725px;
     border: 2px solid black;
-    border-radius: 5px;
+    border-radius: 10px;
     background-color: rgb(68, 68, 68);  
     background-size: cover;
     background-position: center center;  
@@ -72,6 +75,7 @@ body {
     overflow: hidden;
     object-fit: cover;
 	object-position: 0% 15%;
+	border-radius: 10px;
 }
 
 .life-box-main.flipped img {
@@ -79,6 +83,7 @@ body {
     left: 50%;
     transform: translateX(-50%) translateY(-50%) rotate(-180deg);
     object-position: 0% 15%;
+	border-radius: 10px;
 }
 
 .toolbar {
