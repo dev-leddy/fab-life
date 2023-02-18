@@ -12,8 +12,10 @@ var LifeTotalApp = new Vue({
         damageType: "Physical",
         damageTypeEnabled: false,
         typeDefaultDisabled: false,
-        p1: 40,
-        p2: 40,
+        p1: 40, //Life total for player 1
+        p2: 40, //Life total for player 2
+        p1TempLife: 0,
+        p2TempLife: 0,
         p1Hero: "Default",
         p2Hero: "Default",
         p1Log: [], //{Amount: +/- int, Type: Physical, Arcane, Other}
@@ -21,35 +23,51 @@ var LifeTotalApp = new Vue({
         webcamMode: false,
         diceValue1: -1,
         diceValue2: -1,
-        tempLife: 0,
         heroes: {
-            Default: {cc: 40, blitz: 20, image: "./images/default.PNG"},
-            Azalea: {cc: 40, blitz: 20, image: "https://storage.googleapis.com/fabmaster/media/images/azalea_nocopy.height-650.jpg"},
-            Benji: {cc: null, blitz: 17, image: "https://storage.googleapis.com/fabmaster/media/images/CRU_NINJA_HERO_Benji_the_Piercing_Wind_Sam_Ya.height-650.jpg"},
-            Boltyn: {cc: 40, blitz: 20, image: "https://storage.googleapis.com/fabmaster/media/images/bol_main_hero_image_001.height-650.jpg"}, 
-            Bravo: {cc: 40, blitz: 20, image: "https://cdna.artstation.com/p/assets/images/images/021/004/498/large/alexander-mokhov-casanova-1700x1219-cr.jpg"},    
-            Briar: {cc: 40, blitz: 20, image: "https://storage.googleapis.com/fabmaster/media/images/briar_adult_art_cover_img123010325677.height-650.jpg"},
-            Chane: {cc: 40, blitz: 20, image: "https://storage.googleapis.com/fabmaster/media/images/chane_main_hero_image_001.height-650.jpg"},
-            Dash: {cc: 40, blitz: 20, image: "https://storage.googleapis.com/fabmaster/media/images/dash_nocopy.height-650.jpg"},
-            DataDoll: {cc: 40, blitz: 20, image: "https://storage.googleapis.com/fabmaster/media/images/ujJO4W9Wg0.height-650.jpg"},
-            Dorinthea: {cc: 40, blitz: 20, image: "https://storage.googleapis.com/fabmaster/media/images/101_Dorinthea_Ironsong_Lius_Lasahido.height-650.jpg"},
-            Dromai: {cc: 40, blitz: 20, image: "https://storage.googleapis.com/fabmaster/media/images/9Y5YqZ1dukn7.height-650.jpg"},
-            Fai: {cc: 40, blitz: 20, image: "https://storage.googleapis.com/fabmaster/media/images/cH69DlSWS2LC.height-650.jpg"},
-            Iyslander: {cc: 36, blitz: 18, image: "https://storage.googleapis.com/fabmaster/media/images/Iyslander_Hero_IVHJpfvav250.height-650.jpg"},
-            Ira: {cc: null, blitz: 20, image: "https://storage.googleapis.com/fabmaster/media/images/iraz.height-650.jpg"},
-            Kano: {cc: 30, blitz: 15, image: "https://storage.googleapis.com/fabmaster/media/images/kano_old_nocopy.height-650.jpg"},
-            Kassai: {cc: null, blitz: 20, image: "https://storage.googleapis.com/fabmaster/media/images/vH90gkpAQ6.height-650.jpg"},
-            Lexi: {cc: 40, blitz: 20, image: "https://storage.googleapis.com/fabmaster/media/images/lexi_hero_art_full.height-650.jpg"},
-            Levia: {cc: 40, blitz: 20, image: "https://storage.googleapis.com/fabmaster/media/images/68496456547887.height-650.jpg"},
-            Oldhim: {cc: 40, blitz: 20, image: "https://storage.googleapis.com/fabmaster/media/images/oldhim_cover_image_12038190238.height-650.jpg"},
-            Prism: {cc: 40, blitz: 20, image: "https://storage.googleapis.com/fabmaster/media/images/ismpr_main_roeh_image_001.height-650.jpg"},
-            Rhinar: {cc: 40, blitz: 20, image: "https://storage.googleapis.com/fabmaster/media/images/101_Rhinar_Reckless_Rampage_Wisnu_Tan.height-650.jpg"},
-            Valda: {cc: null, blitz: 21, image: "https://storage.googleapis.com/fabmaster/media/images/hero_uOyFL37z033ISMmboAoC.height-650.jpg"},
-            Viserai: {cc: 40, blitz: "BAN", image:"https://storage.googleapis.com/fabmaster/media/images/malthus_nocopy.height-650.jpg"}           
+            Default: {cc: 40, blitz: 20},
+			Arakni: {cc: 40, blitz: 20}, 
+            Azalea: {cc: 40, blitz: 20},
+            Benji: {cc: null, blitz: 17},
+            Boltyn: {cc: 40, blitz: 20}, 
+            Bravo: {cc: 40, blitz: 20},    
+            Briar: {cc: 40, blitz: 20},
+            Chane: {cc: 40, blitz: 20},
+            Dash: {cc: 40, blitz: 20},
+            DataDoll: {cc: 40, blitz: 20},
+            Dorinthea: {cc: 40, blitz: 20},
+			Emperor: {cc: null, blitz: 15},
+            Dromai: {cc: 40, blitz: 20},
+            Fai: {cc: 40, blitz: 20},
+            Genis: {cc: null, blitz: 20},
+            Iyslander: {cc: 36, blitz: 18},
+            Ira: {cc: null, blitz: 20},
+            Kano: {cc: 30, blitz: 15},
+            Kassai: {cc: null, blitz: 20},
+			Katsu: {cc: 40, blitz: 20},
+            Kavdaen: {cc: null, blitz: 20},
+            Kayo: {cc: null, blitz: 20},
+            Lexi: {cc: 40, blitz: 20},
+            Levia: {cc: 40, blitz: 20},
+            Oldhim: {cc: 40, blitz: 20},
+            Prism: {cc: 40, blitz: 20},
+            Rhinar: {cc: 40, blitz: 20},
+            Shiyana: {cc: 40, blitz: 20},
+            Starvo: {cc: 40, blitz: 20},
+            Valda: {cc: null, blitz: 21},
+            Viserai: {cc: 40, blitz: 20},
+			Yoji: {cc: null, blitz: 20}           
         }
     },
     methods: {
         setCC: function(){
+            if(this.heroes[this.p1Hero].cc == null){
+                this.p1Hero = "Default";
+            }
+
+            if(this.heroes[this.p2Hero].cc == null){
+                this.p2Hero = "Default";
+            }
+
             this.p1 = this.heroes[this.p1Hero].cc;
             this.p2 = this.heroes[this.p2Hero].cc;
             this.format = "CC";
@@ -62,18 +80,17 @@ var LifeTotalApp = new Vue({
             Cookies.set('format', 'Blitz', 9999);
         },
         lifeChange: function(Player, Amount, Type){
-            this.tempLife += Amount;
+            this[Player + "TempLife"] += Amount;
             this[Player] += Amount;
-            lifeDebounce(Player, this.tempLife, Type);
+            lifeDebounce(Player, this[Player + "TempLife"], Type);
 
             if(this.typeDefaultDisabled == false){
                 resetToPhysicalDebounce();
             }          
         },
         lifeChangeCommit: function(Player, Amount, Type){
-            //this[Player] += Amount;
-            //let type = this.damageType;
-            
+            if(Amount == 0) return;
+
             //heal/correction
             if(Amount > 0) {
                 Amount = "+" + Amount;
@@ -91,7 +108,7 @@ var LifeTotalApp = new Vue({
                 this[Player + 'Log'].length, 
                 data
             );
-            this.tempLife = 0;
+            this[Player + "TempLife"] = 0;
         },
         reset: function(){
             if(this.format == "CC"){
@@ -106,6 +123,11 @@ var LifeTotalApp = new Vue({
         },
         setPlayerHero: function(player, heroName){
             this[player + "Hero"] = heroName;
+
+            if(player == "p2"){
+                Cookies.set("p2Hero", heroName, 9999);
+            }
+
             if(this.format == "CC")
             {
                 this[player] = this.heroes[heroName].cc;
@@ -129,6 +151,14 @@ var LifeTotalApp = new Vue({
             }
 
             diceLoop();
+        },
+        getImage(hero){
+            if(this.format == "CC"){
+                return "./images/hero_adult/" + hero.toLowerCase() + "_adult.jpg";
+            }
+            else{
+                return "./images/hero_young/" + hero.toLowerCase() + "_young.jpg";
+            }
         }
     },
     watch: {
@@ -145,11 +175,12 @@ var LifeTotalApp = new Vue({
     created: function(){
         //grab cookies
         this.format = Cookies.get('format') != undefined ? Cookies.get('format') : "CC";
+        this.p2Hero = Cookies.get('p2Hero') != undefined ? Cookies.get('p2Hero') : "Default";
+
+        this.damageTypeEnabled = Cookies.get('damageTypeEnabled') == 'true' ? true : false;
 
         this.p1 = this.format == "CC" ? 40 : 20;
         this.p2 = this.format == "CC" ? 40 : 20;
-
-        this.damageTypeEnabled = Cookies.get('damageTypeEnabled') != undefined ? Cookies.get('damageTypeEnabled') : false;
     }
 });
 

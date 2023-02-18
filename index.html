@@ -7,16 +7,17 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
 <script src="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.js"></script>
 
-
-
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<!--test-->
+
 <div id="app">
     <div id="main" class="d-flex flex-column" style="height: 100vh;">
         <div class="life-box-main" :class="{'flipped': webcamMode == false}">
-            <img v-if="p1Hero != 'Default'" :src="heroes[p1Hero].image"/>
+            <img v-if="p1Hero != 'Default'" :src="getImage(p1Hero)"/>
             <div :class="{'indicator-left': webcamMode == false, 'indicator-right': webcamMode == true}">
                 <h3>+</h2>
+            </div>
+            <div :class="{'temp-life-top': webcamMode == true, 'temp-life-bottom': webcamMode == false}" v-if="p1TempLife != 0">
+                {{ p1TempLife }}
             </div>
             <div :class="{'indicator-left': webcamMode == true, 'indicator-right': webcamMode == false}">
                 <h3>-</h2>
@@ -26,6 +27,7 @@
             </h1>
             <div v-if="webcamMode == false" class="overlay">
                 <div class="life-change-box heal" @click="lifeChange('p1', +1, damageType)"></div>
+
                 <div class="life-change-box damage" @click="lifeChange('p1', -1, damageType)"></div>
             </div>
             <div v-else class="overlay">
@@ -34,28 +36,29 @@
             </div>
         </div>
         <div class="toolbar">     
-            <div class="flex-grow-1">
-                <b-button size="sm" variant="secondary" v-b-modal.user-settings><span class="material-icons">settings</span></b-button>               
-                <b-button size="sm" variant="secondary" v-b-modal.dice-modal @click="getDiceValue()"><span class="material-icons">casino</span></b-button> 
+            <div class="d-flex mr-auto">
+                <b-button size="sm" variant="secondary" class="mx-1" v-b-modal.user-settings><span class="material-icons">settings</span></b-button>               
+                <b-button size="sm" variant="secondary" class="mx-1" v-b-modal.dice-modal @click="getDiceValue()"><span class="material-icons">casino</span></b-button> 
             </div>                 
-            <div>
-                <b-button-group v-if="damageTypeEnabled" class="ml-auto">
-                    <b-button size="sm" variant="outline-warning" :pressed="damageType == 'Physical'" @click="damageType = 'Physical'">P</b-button>   
-                    <b-button size="sm" variant="outline-purple" :pressed="damageType == 'Arcane'" @click="damageType = 'Arcane'">A</b-button>                
-                    <b-button size="sm" variant="outline-danger" :pressed="damageType == 'Other'" @click="damageType = 'Other'">O</b-button> 
-                </b-button-group>  
+            <div v-if="damageTypeEnabled" class="d-flex mx-auto">
+                <b-button-group  class="mx-auto">
+                    <b-button size="sm" variant="outline-warning" style="height: 42px; width: 42px" :pressed="damageType == 'Physical'" @click="damageType = 'Physical'"><b-img src="./images/icons/physical.webp" fluid></b-img></b-button>   
+                    <b-button size="sm" variant="outline-purple" style="height: 42px; width: 42px" :pressed="damageType == 'Arcane'" @click="damageType = 'Arcane'"><b-img src="./images/icons/runechant.webp" fluid rounded="circle" style="background-color: #000000; padding-bottom: 3px;"></b-img></b-button>                
+                    <b-button size="sm" variant="outline-danger" style="height: 42px; width: 42px" :pressed="damageType == 'Other'" @click="damageType = 'Other'">O</b-button> 
+                </b-button-group>        
             </div>
-            <div>
-                <b-button size="sm" variant="secondary" class="mx-auto" v-b-modal.confirm-modal><span class="material-icons">restart_alt</span></b-button>  
-                    
-                <b-button size="sm" variant="secondary" class="ml-5" v-b-modal.log-modal><span class="material-icons">history_edu</span></b-button>   
+            <div class="d-flex ml-auto"> 
+                <b-button size="sm" variant="secondary" class="mx-1" v-b-modal.confirm-modal><span class="material-icons">restart_alt</span></b-button>  
+                <b-button size="sm" variant="secondary" class="mx-1" v-b-modal.log-modal><span class="material-icons">history_edu</span></b-button>   
             </div>
-
         </div>
         <div class="life-box-main">
-            <img v-if="p2Hero != 'Default'" :src="heroes[p2Hero].image"/>
+            <img v-if="p2Hero != 'Default'" :src="getImage(p2Hero)"/>
             <div class="indicator-right-bottom">
                 <h3>+</h2>
+            </div>
+            <div class="temp-life-top" v-if="p2TempLife != 0">
+                {{ p2TempLife }}
             </div>
             <div class="indicator-left-bottom">
                 <h3>-</h2>
@@ -77,8 +80,8 @@
                     <div class="mx-auto my-1">
                         <div>Format:</div>
                         <b-button-group>
-                            <b-button variant="outline-light" @click="setCC()" :pressed="format == 'CC'">CC</b-button>
-                            <b-button variant="outline-light" @click="setBlitz()" :pressed="format == 'Blitz'">Blitz</b-button>
+                            <b-button variant="outline-light" @click="setCC()" :pressed="format == 'CC'">Classic Constructed</b-button>
+                            <b-button variant="outline-light" @click="setBlitz()" :pressed="format == 'Blitz'">Blitz/Limited/Commoner</b-button>
                         </b-button-group>
                     </div>
                     <div class="mx-auto my-1 d-flex flex-column">
@@ -90,7 +93,7 @@
                             &nbsp;Damage Type Enabled
                         </b-form-checkbox>
                         <b-form-checkbox v-model="typeDefaultDisabled" name="check-button" switch>
-                            &nbsp;Disable Type Default (if type enabled)
+                            &nbsp;Disable Physical Default (if type enabled)
                         </b-form-checkbox>
                     </div>                             
                 </div>
@@ -104,14 +107,12 @@
                         <h5 class="mx-auto mb-1" style="border-bottom: 2px solid black">Top Player</h5>
                         <div v-for="(heroData, heroName) in heroes" v-if="format == 'CC' && heroData.cc != null || format == 'Blitz'" class="hero-box" :class="{'green': heroName == p1Hero}" @click="setPlayerHero('p1', heroName)">
                             <h5 class="hero-text">{{heroName}}</h5>
-                            <!-- {{heroData.cc}}, {{heroData.blitz}} -->
                         </div>
                     </div>
                     <div class="d-flex flex-column mx-auto w-100">
                         <h5 class="mx-auto mb-1" style="border-bottom: 2px solid black">Bottom Player</h5>
                         <div v-for="(heroData, heroName) in heroes" v-if="format == 'CC' && heroData.cc != null || format == 'Blitz'" class="hero-box" :class="{'green': heroName == p2Hero}" @click="setPlayerHero('p2', heroName)">
                             <h5 class="hero-text">{{heroName}}</h5>
-                            <!-- {{heroData.cc}}, {{heroData.blitz}} -->
                         </div>
                     </div>
                 </div>
@@ -119,7 +120,7 @@
         </div>
     </b-modal>
 
-    <b-modal id="confirm-modal" size="sm" centered @ok="reset">
+    <b-modal id="confirm-modal" size="sm" centered hide-header-close @ok="reset">
         <div class="d-flex">
             <h4 class="my-auto mx-auto pt-3">Reset life totals?</h4>
         </div>
@@ -145,7 +146,7 @@
     </b-modal>
 
     <b-modal id="log-modal" size="large" centered hide-footer title="Life Total History">
-        <div class="d-flex">
+        <div class="d-flex" style="min-height: 50vh">
             <div class="d-flex flex-column mx-auto">
                 <div class="mx-auto mb-1" style="font-size:1.1em">{{p1Hero}} (top)</div>
                 <b-table ref="p1LogTable" striped hover :items="p1Log"></b-table>
