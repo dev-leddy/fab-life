@@ -38,7 +38,7 @@
         <div class="toolbar">     
             <div class="d-flex mr-auto">
                 <b-button size="sm" variant="secondary" class="mx-1" v-b-modal.user-settings><span class="material-icons">settings</span></b-button>               
-                <b-button size="sm" variant="secondary" class="mx-1" v-b-modal.dice-modal @click="getDiceValue()"><span class="material-icons">casino</span></b-button> 
+                <b-button size="sm" variant="secondary" class="mx-1" v-b-modal.dice-modal @click="getDiceValue(6)"><span class="material-icons">casino</span></b-button> 
             </div>                 
             <div v-if="damageTypeEnabled" class="d-flex mx-auto">
                 <b-button-group  class="mx-auto">
@@ -85,16 +85,15 @@
                         </b-button-group>
                     </div>
                     <div class="mx-auto my-1 d-flex flex-column">
-                        <div>Toggles:</div>
                         <b-form-checkbox v-model="webcamMode" name="check-button" switch>
                             &nbsp;Webcam Mode
                         </b-form-checkbox>
-                        <b-form-checkbox v-model="damageTypeEnabled" name="check-button" switch>
+                        <!-- <b-form-checkbox v-model="damageTypeEnabled" name="check-button" switch>
                             &nbsp;Damage Type Enabled
-                        </b-form-checkbox>
-                        <b-form-checkbox v-model="typeDefaultDisabled" name="check-button" switch>
+                        </b-form-checkbox> -->
+                        <!-- <b-form-checkbox v-model="typeDefaultDisabled" name="check-button" switch>
                             &nbsp;Disable Physical Default (if type enabled)
-                        </b-form-checkbox>
+                        </b-form-checkbox> -->
                     </div>                             
                 </div>
             </b-card>
@@ -120,7 +119,7 @@
         </div>
     </b-modal>
 
-    <b-modal id="confirm-modal" size="sm" centered hide-header-close @ok="reset">
+    <b-modal id="confirm-modal" size="sm" centered hide-header-close @ok="reset" style="transform: rotate(90deg) !important;">
         <div class="d-flex">
             <h4 class="my-auto mx-auto pt-3">Reset life totals?</h4>
         </div>
@@ -141,17 +140,17 @@
                 </b-card> -->
             </div>
             <!-- <div class="mx-auto mt-1">Total: {{diceValue1 + diceValue2}}</div> -->
-            <b-button class="mx-auto mt-3" variant="secondary" @click="getDiceValue()">Roll Again</b-button>
+            <b-button class="mx-auto mt-3" variant="secondary" @click="getDiceValue(6)">Roll Again</b-button>
         </div>
     </b-modal>
 
     <b-modal id="log-modal" size="large" centered hide-footer title="Life Total History">
         <div class="d-flex" style="min-height: 50vh">
-            <div class="d-flex flex-column mx-auto">
+            <div class="d-flex flex-column mx-1 flex-grow-1">
                 <div class="mx-auto mb-1" style="font-size:1.1em">{{p1Hero}} (top)</div>
                 <b-table ref="p1LogTable" striped hover :items="p1Log"></b-table>
             </div>
-            <div class="d-flex flex-column mx-auto">
+            <div class="d-flex flex-column mx-1 flex-grow-1">
                 <div class="mx-auto mb-1" style="font-size:1.1em">{{p2Hero}} (bottom)</div>
                 <b-table ref="p2LogTable" striped hover :items="p2Log"></b-table>
             </div>

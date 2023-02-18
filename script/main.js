@@ -121,6 +121,9 @@ var LifeTotalApp = new Vue({
             this.p1Log.splice(0);
             this.p2Log.splice(0);
         },
+		resetClick: function(){
+
+		},
         setPlayerHero: function(player, heroName){
             this[player + "Hero"] = heroName;
 
@@ -138,14 +141,14 @@ var LifeTotalApp = new Vue({
             this.p1Log.splice(0);
             this.p2Log.splice(0);
         },
-        getDiceValue(){
+        getDiceValue(maxDiceValue){
             const delay = async (ms = 1000) =>
             new Promise(resolve => setTimeout(resolve, ms));
 
             async function diceLoop() {
                 for (let i = 0; i < 5; i += 1) {
-                    LifeTotalApp.diceValue1 = rollDice(1,6);
-                    LifeTotalApp.diceValue2 = rollDice(1,6);
+                    LifeTotalApp.diceValue1 = rollDice(1,maxDiceValue);
+                    LifeTotalApp.diceValue2 = rollDice(1,maxDiceValue);
                     await delay(100)
                 }
             }
