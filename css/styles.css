@@ -16,8 +16,8 @@ body {
 .life-box-main {
     width: calc(100vw - 10px);
     height: 100%;
-    margin-left: 5px;
-    margin-right: 5px;
+    margin-left: auto;
+    margin-right: auto;
     margin-top: 10px;
     margin-bottom: 10px;
     display: flex;

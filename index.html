@@ -10,7 +10,7 @@
 <!-- <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> -->
 <meta name = "viewport" content = "width=device-width, minimum-scale=1.0, maximum-scale = 1.0, user-scalable = no">
 
-<div id="app">
+<div id="app" style="width: 100vw">
     <div id="main" class="d-flex flex-column" style="margin: auto; height: 100vh;">
         <div class="life-box-main" :class="{'flipped': webcamMode == false}">
             <img v-if="p1Hero != 'Default'" :src="getImage(p1Hero)"/>
