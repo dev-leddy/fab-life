@@ -50,7 +50,13 @@
                 </b-button-group>        
             </div>
             <div class="d-flex ml-auto"> 
-                <b-button size="sm" variant="secondary" class="mx-1" v-b-modal.confirm-modal><span class="material-icons">restart_alt</span></b-button>  
+                <!-- <b-button size="sm" variant="secondary" class="mx-1" v-b-modal.confirm-modal><span class="material-icons">restart_alt</span></b-button>   -->
+				<b-button v-if="resetConfirm == false" size="sm" variant="secondary" class="mx-1" @click="resetConfirm = !resetConfirm">
+					<span class="material-icons">restart_alt</span>
+				</b-button>  
+				<b-button v-if="resetConfirm == true" size="sm" variant="secondary" class="mx1" @click="reset">
+					<span class="material-icons">done</span>
+				</b-button>
                 <b-button size="sm" variant="secondary" class="mx-1" v-b-modal.log-modal><span class="material-icons">history_edu</span></b-button>   
             </div>
         </div>
