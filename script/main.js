@@ -125,10 +125,9 @@ var LifeTotalApp = new Vue({
 
             this.p1Log.splice(0);
             this.p2Log.splice(0);
-        },
-		resetClick: function(){
 
-		},
+			this.resetConfirm = false;
+        },
         setPlayerHero: function(player, heroName){
             this[player + "Hero"] = heroName;
 
@@ -184,9 +183,7 @@ var LifeTotalApp = new Vue({
             Cookies.set('typeDefaultDisabled', newValue, 9999);
         },
 		resetConfirm: function(){
-			setTimeout(() => {
-				this.resetConfirm = false;
-			}, 3000);
+			resetConfirmTimeout();
 		}
     },
     created: function(){
@@ -227,3 +224,15 @@ function debounce(func, wait, immediate) {
 		if (callNow) func.apply(context, args);
 	};
 };
+
+var resetConfirmRunning = false;
+
+function resetConfirmTimeout(){
+	if(resetConfirmRunning == true) return;
+	resetConfirmRunning = true;
+
+	setTimeout(() => {
+		LifeTotalApp.resetConfirm = false;
+		resetConfirmRunning = false;
+	}, 2000);
+}
