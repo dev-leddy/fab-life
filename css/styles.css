@@ -24,7 +24,7 @@ body {
     position: relative;
     max-width: 725px;
     border: 2px solid black;
-    border-radius: 10px;
+    border-radius: 20px;
     background-color: rgb(68, 68, 68);  
     background-size: cover;
     background-position: center center;  
@@ -75,7 +75,7 @@ body {
     overflow: hidden;
     object-fit: cover;
 	object-position: 0% 15%;
-	border-radius: 10px;
+	border-radius: 20px;
 }
 
 .life-box-main.flipped img {
@@ -83,7 +83,7 @@ body {
     left: 50%;
     transform: translateX(-50%) translateY(-50%) rotate(-180deg);
     object-position: 0% 15%;
-	border-radius: 10px;
+	border-radius: 20px;
 }
 
 .toolbar {
@@ -139,10 +139,12 @@ body {
 
 .life-change-box.damage:active {
     background:red;
+	border-radius: 20px;
 }
 
 .life-change-box.heal:active {
     background:green;
+	border-radius: 20px;
 }
 
 .hero-box {

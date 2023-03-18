@@ -24,6 +24,7 @@ var LifeTotalApp = new Vue({
         diceValue1: -1,
         diceValue2: -1,
 		diceRolled: " ",
+		userHoldingLifeChange: false,
         heroes: {
             Default: {cc: 40, blitz: 20},
 			Arakni: {cc: 40, blitz: 20}, 
