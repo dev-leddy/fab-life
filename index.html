@@ -27,9 +27,10 @@
                 {{ p1 }}
             </h1>
             <div v-if="webcamMode == false" class="overlay">
-                <div class="life-change-box heal" @click="lifeChange('p1', +1, damageType)"></div>
-
+                <div class="life-change-box heal" @pointerdown="userHoldingP1LifeChange = true" @pointerup="userHoldingLifeChange = true"></div>
                 <div class="life-change-box damage" @click="lifeChange('p1', -1, damageType)"></div>
+				<!-- <div class="life-change-box heal" @click="lifeChange('p1', +1, damageType)"></div>
+                <div class="life-change-box damage" @click="lifeChange('p1', -1, damageType)"></div> -->
             </div>
             <div v-else class="overlay">
                 <div class="life-change-box damage" @click="lifeChange('p1', -1, damageType)"></div>
