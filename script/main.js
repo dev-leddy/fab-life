@@ -29,6 +29,7 @@ var LifeTotalApp = new Vue({
         heroes: {
             Default: {cc: 40, blitz: 20},
 			Arakni: {cc: 40, blitz: 20}, 
+			Arakni_Solitary: {cc: null, blitz: 19},
             Azalea: {cc: 40, blitz: 20},
             Benji: {cc: null, blitz: 17},
             Boltyn: {cc: 40, blitz: 20}, 
@@ -36,7 +37,7 @@ var LifeTotalApp = new Vue({
             Briar: {cc: 40, blitz: 20},
             Chane: {cc: 40, blitz: 20},
             Dash: {cc: 40, blitz: 20},
-            DataDoll: {cc: null, blitz: 20},
+            Data_Doll: {cc: null, blitz: 20},
             Dorinthea: {cc: 40, blitz: 20},
 			Emperor: {cc: null, blitz: 15},
             Dromai: {cc: 40, blitz: 20},

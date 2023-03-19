@@ -113,13 +113,13 @@
                     <div class="d-flex flex-column mx-1 w-100">
                         <h5 class="mx-auto mb-1 w-100" style="border-bottom: 2px solid #222; text-align: center;">Top Player</h5>
                         <div v-for="(heroData, heroName) in heroes" v-if="format == 'CC' && heroData.cc != null || format == 'Blitz'" class="hero-box" :class="{'green': heroName == p1Hero}" @click="setPlayerHero('p1', heroName)">
-                            <h5 class="hero-text">{{heroName}}</h5>
+                            <h5 class="hero-text">{{heroName.replace(/_/g, ' ')}}</h5>
                         </div>
                     </div>
                     <div class="d-flex flex-column mx-1 w-100">
                         <h5 class="mx-auto mb-1 w-100" style="border-bottom: 2px solid #222 ; text-align: center">Bottom Player</h5>
                         <div v-for="(heroData, heroName) in heroes" v-if="format == 'CC' && heroData.cc != null || format == 'Blitz'" class="hero-box" :class="{'green': heroName == p2Hero}" @click="setPlayerHero('p2', heroName)">
-                            <h5 class="hero-text">{{heroName}}</h5>
+                            <h5 class="hero-text">{{heroName.replace(/_/g, ' ')}}</h5>
                         </div>
                     </div>
                 </div>
